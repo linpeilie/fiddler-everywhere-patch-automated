@@ -1,49 +1,71 @@
 ## [中文翻译版](README_CN.md)
 
+> [!WARNInG]
+> FE `v8.x.x` support is not yet automated here. You need to follow [parent-repo](https://github.com/msojocs/fiddler-everywhere-enhance)
+
 # Fiddler Everywhere Patch (Automated)
 Guides you to Patch Fiddler Everywhere on Windows Automatically. 
 > Parent Repo: https://github.com/msojocs/fiddler-everywhere-enhance
 
-## Special: You can also patch manually by yourself. Visit [This repo](https://github.com/sipsuru/fiddler-everywhere-patch-manual)
-
 ## What and How?
-This's a crack (actually a patch) for Telerik Fiddler Everywhere. It can grant you a trial that doesn't expire. The trial has every feature. 
+This's a  a patch for Telerik Fiddler Everywhere. It can grant you a trial that doesn't expire. The trial has all the features. 
 This's the guide for applying patch automatically. 
 
 ![Unlimited Trial](https://github.com/user-attachments/assets/e9c83778-27fa-456a-96e6-07bb0cd7f4ad)
 
+---
+
+## Feature Updates
+> [!TIP]
+> Patching is even faster.
+>  - Previously &nbsp;&nbsp;&nbsp;:&nbsp;2m 25s
+>  - Now &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;1m 30s
+
+> [!IMPORTANT]
+> If you encounter an issue of "Fiddle Everywhere Crashing in Startup", you can follow [this](#fiddler-everywhere-crashing-at-startup).
+
+> [!TIP]
+> Now supports changing patch server port (Useful if port conflitcts encountered)
+
+> [!TIP]
+> Now supports changing default user profile (fake) for FE (incl - email, fname, lname, country-code, provider)
+
+---
+
+> [!IMPORTANT]
+> Linux Automated Patching is Supported Now!
+
+> [!WARNING]
+> The new patch want to write files in a directory inside FE app itself. So you need to give write permissions in Linux. See [#27](https://github.com/auto-yui-patch/fiddler-everywhere-patch-automated/issues/27) for more. And feel free to drop your suggestion to automate the process.
+
+> [!IMPORTANT]
+> ### Update Notice: Support for Syncing forks with upstream repo: [READ MORE](#scheduled-syncing-forks-with-upstream-repo)
+
+---
+
 ## Get Started.
-
- > [!IMPORTANT]
- > Failing to download Yukihana Patch for 5.17.0 + (Because continuous release & latest release didn't contain windows patches), is fixed now. 
-
- > [!IMPORTANT]
- > Not patching 5.17.0+ when you trigger from "Custom Version - Workflow Dispatch" is Fixed now!
-
  > [!TIP]
- > You must always check if your fork is up to date so no fails. 
-
- > [!NOTE]
- > Only for Windows!
+ > You must always check if your fork is up to date so no fails. (We reccomend you enable [Scheduled upstream pulling](#scheduled-syncing-forks-with-upstream-repo))
 
  * How even this Automated Patching Works?
    - Well, this automated patch do the same that you do mannually for patching. It downloads fiddler everywhere extract it. Remove, Replace, Edit, Move files and then, the patched application is ready.
 
- * Continuous or Workflow Dispatch? or Workflow Dispatch Latest?
+ * Workflow Dispatch? or Workflow Dispatch Latest?
    - Latest Version - Workflow Dispatch - Patch the latest version, and upload as artifact.
    - Custom Version - Workflow Dispatch - Allows you to select a compatible version (5.9.0 +) and patch  and upload as a workflow artifact.
-   - Continuous Patch - Patches FE as it's released by Telerik and make a github release of patched app.
 
 > [!TIP]
-> We highly reccomend you to use ***Latest Version - Workflow Dispatch***, which patch the latest available version. or ***Custon Version - Workflow Dispatch*** which allows you to select a version starting from 5.9.0 +
+> We highly reccomend you to use ***Latest Version - Workflow Dispatch***, which patch the latest available version.
+> ***Custon Version - Workflow Dispatch*** allows you to select a version starting from 5.9.0 + too.
 
-> ~`Note that Only `Workflow Dispatch` automation mentioned above is not available *for now!*~
+---
 
+### With `Latest Version - Workflow Dispatch` 
+[![](https://github.com/auto-yui-patch/fiddler-everywhere-patch-automated/actions/workflows/cp_latest_dispatch.yml/badge.svg)](https://github.com/auto-yui-patch/fiddler-everywhere-patch-automated/actions/workflows/cp_latest_dispatch.yml)
 
-### With `Latest Version - Workflow Dispatch`
   - Fork this repo.
   - Go to actions tab, Select `Latest Version - Workflow Dispatch` workflow.
-  - Trigger it with `workflow diaptch`
+  - Trigger it with `workflow dispatch`
   - After a successful trigger download artifact that named like `Fiddler-Everywhere-VX.X.X-Patched`
   - Extract it. Run it
 
@@ -52,12 +74,8 @@ This's the guide for applying patch automatically.
     https://github.com/user-attachments/assets/437c3448-1ea2-4c99-9123-e56b1665a37b
 
 
-### With `Custom Version - WorkFlow Dispatch`
-
-  > [!IMPORTANT]
-  > Before 21:25, Tuesday, September 24, 2024, there was a issue which won't patch 5.17.0+ versions (due to env error), if you trigger `Custom Version - WorkFlow Dispatch
-`. & it's fixed now!
-
+### With `Custom Version - WorkFlow Dispatch` 
+[![](https://github.com/auto-yui-patch/fiddler-everywhere-patch-automated/actions/workflows/cp_dispatch.yml/badge.svg)](https://github.com/auto-yui-patch/fiddler-everywhere-patch-automated/actions/workflows/cp_dispatch.yml)
 
   - Fork this repo
   - Go to actions tab, Select `Custom Version - Workflow Dispatch` workflow.
@@ -74,24 +92,60 @@ This's the guide for applying patch automatically.
 
     https://github.com/user-attachments/assets/1e9fa214-b9c9-469c-83f0-e5ae4527d2f7
 
+---
 
-### With `Continuous Patch`
+### Scheduled Syncing Forks with Upstream Repo
+  FE Patch `1.0.8` adds support to sync your repo with upstream repo - scheduled (default: every 6 hours) 
+  > [!NOTE]
+  > Tnx: [lobe-chat](https://github.com/lobehub/lobe-chat) & [ous50](https://github.com/ous50)
+
+  > [!IMPORTANT]
+  >  - For this upstream pulling action to work, you need to enable [Upstream Sync](.github/workflows/cp_pull_upstream.yml) Github Action.
+  >  - And the action'll create an issue in your fork if pulling is unsuccesfull. So you need to enable `issues` for your fork with your repositories settings (`Settings` `-->` `General` `-->` `Features` `Issues`)
+  >  - For more information on how this action works: [lobe-chat's Sync Feature Wiki - en-US](https://github.com/lobehub/lobe-chat/wiki/Upstream-Sync) & [lobe-chat's Sync Feature Wiki - zh-CN](https://github.com/lobehub/lobe-chat/wiki/Upstream-Sync.zh-CN)
+
+  > [!TIP]
+  >  - You can change schedule by editing `- cron: '0 */6 * * *'` in [cp_pull_upstream.yml](.github/workflows/cp_pull_upstream.yml)
+  >  - For more information on `- cron` of Github Actions, visit [Github Documentation - Scheduling Actions](https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#schedule)
+
   > [!CAUTION]
-  > We highly reccomend you to not to use this version. Please don't use this. It still has a lot of vulnerabilities. 
-  
-  - Fork this repo.
-  - For Continuous Patch a `Repository Variable` named `LATEST_PATCHED_VERSION` is needed. You should put the current latest version that available in the [Release History](https://www.telerik.com/support/whats-new/fiddler-everywhere/release-history) but without 'V'. So for ex: `5.17.0`
-  - The continuous patch patch newer versions than the version named in `LATEST_PATCHED_VERSION` and ***Currently you need to manually update this repository vairiable after patching a new version with this or else it'll keep patching the same version everyday!***
-  - The action workflows triggers 1t 00:00 UTC everyday, and if it found a new version, the artifact will be uploaded.
-    > Causion: The action won't upload patched app as release for now. So you've to manually check if a new version is patched (everyday) by refering artifact section of the runned actions.
-  - If Telerik has uploaded a new version, if it's patched in a continuous trigger, download the artifact named like `Fiddler-Everywhere-VX.X.X-Patched`
-  - Extract it. Run it
+  >  - IF you use another method (maybe a Github App), to sync your forks with upstream repos, (for ex: [Pull by Wei](https://github.com/wei/pull)), you should disable the `Upstream Sync` action by going through, `Actions` `-->` `Upstream Sync` `-->` `Right Top Menu [...]` `-->` `Disable Workflow`
+  >  - For more information on how to disable a workflow: [Github Documentation on Disabling & Enabling Workflows](https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-workflow-runs/disabling-and-enabling-a-workflow)
 
-  > [!WARNING]
-  > We highly reccomend you to disable this workflow patch as it consume a lot of resources from github action runners! & you won't like a lot's of workflow runs too.
+---
 
 > [!NOTE]
 > For Generic `Linux` and `MacOS` instructions, use [source repository](https://github.com/msojocs/fiddler-everywhere-enhance)
 
 > [!CAUTION]
 > Please don't use this patch for illegal matters. And we'd love if you can buy and support the officials: [Please Support](https://www.telerik.com/purchase/fiddler)
+
+---
+
+### Fiddler Everywhere Crashing at Startup
+
+If you encounter this issue, it's most likely unrelated to the patch! You should confirm it!
+
+- Check logs by running `Fiddler Everywhere.exe` from the terminal.
+  Pay special attention to the following line. (it’s omitted in the official, non-patched version of Fiddler Everywhere.)
+  ```bash
+  Server error log during start: System.IO.IOException: Failed to bind to address http://localhost:8868.
+  ```
+
+  If you see this, it's completely unrelated to the patch. You should see the same issue with the `non-patched official FE`. Confirm this. 
+
+- Check Fiddler Everywhere logs in `%AppData%\Fiddler Everywhere\logs\`
+
+- Check `Administered port exclusions` to see if port `8868` is restricted. 
+You can check it with:
+  ```bash
+  netsh interface ipv4 show excludedportrange protocol=tcp
+  ```
+
+- If port `8868` is restricted, 
+  - You should also see the same issue with the `non-patched official FE`. Confirm this.
+  - You can try removing port `8868` from `Administered port exclusions`. 
+
+You should also follow issue [#44](https://github.com/auto-yui-patch/fiddler-everywhere-patch-automated/issues/44#issuecomment-3497425472) ; Special tnx to [@choneas](https://github.com/choneas). 
+
+If this didn't solve your problem, feel free to open an issue. 

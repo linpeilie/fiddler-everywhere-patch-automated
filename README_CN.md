@@ -1,87 +1,114 @@
-> [!NOTE]
-> 由 AI 翻译，可能存在语法或其他错误，欢迎指正！
-
-# Fiddler Everywhere Patch（自动化）
-指导您在 Windows 上自动修补 Fiddler Everywhere。
+# Fiddler Everywhere 补丁（自动化版）
+指导您在 Windows 系统上自动为 Fiddler Everywhere 打补丁。
 > 父仓库：https://github.com/msojocs/fiddler-everywhere-enhance
 
-## 特别说明：您也可以手动修补，请访问[此仓库](https://github.com/sipsuru/fiddler-everywhere-patch-manual)
+## 特别说明：您也可以手动打补丁。请访问 [此仓库](https://github.com/sipsuru/fiddler-everywhere-patch-manual)
 
-## 什么是补丁？如何操作？
-这是针对 Telerik Fiddler Everywhere 的 crack（实际上是补丁）。它可以让您的试用版不会过期，并且试用版包含所有功能。  
-以下是手动应用补丁的指南。此外，还会有一个仓库引导您进行自动化补丁。
+## 什么是补丁？如何使用？
+这是一个适用于 Telerik Fiddler Everywhere 的补丁工具，可以为您提供永不过期的试用期，并解锁所有功能。  
+以下是自动应用补丁的操作指南。
 
-![无限试用版](https://github.com/user-attachments/assets/e9c83778-27fa-456a-96e6-07bb0cd7f4ad)
+![无限试用期](https://github.com/user-attachments/assets/e9c83778-27fa-456a-96e6-07bb0cd7f4ad)
 
-## 开始使用
+---
 
-> [!IMPORTANT]
-> 现在触发 "Custom Version - Workflow Dispatch" 时已修复无法修补 5.17.0+ 的问题！
-
-> [!NOTE]
-> 仅适用于 Windows 系统！
-
-* 自动化修补如何工作？
-   - 此自动化修补与您手动修补的步骤相同。它会下载 Fiddler Everywhere，解压缩，删除、替换、编辑和移动文件，最后生成已修补的应用程序。
-
-* Continuous Patch（连续修补）与 Workflow Dispatch 有什么区别？
-   - Latest Version - Workflow Dispatch：修补最新版本并作为 artifact 上传。
-   - Custom Version - Workflow Dispatch：允许您选择兼容版本（5.9.0+）进行修补，并上传为 artifact。
-   - Continuous Patch：当 Telerik 发布新版本时，自动修补 Fiddler Everywhere，并发布修补后的应用程序至 GitHub release。
+### 功能更新
+> [!TIP]
+> 补丁更新速度更快。
+>  - 之前：2分25秒
+>  - 现在：1分30秒
 
 > [!TIP]
-> 我们强烈推荐您使用 ***Latest Version - Workflow Dispatch*** 以修补最新的可用版本，或使用 ***Custom Version - Workflow Dispatch*** 选择 5.9.0+ 版本进行修补。
+> 现已支持更改补丁服务器端口（用于解决端口冲突问题）。
 
-> ~`请注意：上述 `Workflow Dispatch` 自动化暂时不可用！`~
+> [!TIP]
+> 现已支持为前端（FE）更改默认的虚拟用户配置（包括：电子邮箱、名字、姓氏、国家代码、提供商）。
 
-### 使用 `Latest Version - Workflow Dispatch`
+---
+
+> [!IMPORTANT]
+> Linux 自动补丁现已支持！
+
+> [!WARNING]
+> 新补丁需要向前端（FE）应用目录内写入文件，因此您需要在 Linux 系统中授予相应的写入权限。更多详情请参阅议题 #27。如果您有任何关于自动化该流程的建议，也欢迎随时提出。
+
+> [!IMPORTANT]
+> ### 更新通知：支持同步 Fork 与上游仓库：[阅读更多](#scheduled-syncing-forks-with-upstream-repo)
+
+---
+
+## 快速开始
+> [!TIP]
+> 您应始终检查您的 Fork 是否是最新的，以避免失败。（我们推荐您启用 [定时上游同步](#scheduled-syncing-forks-with-upstream-repo)）
+
+* 自动化打补丁是如何工作的？
+  - 该自动化补丁工具实现了与手动补丁相同的功能：它会下载 Fiddler Everywhere，解压缩、删除、替换、编辑、移动文件，最后生成已打补丁的应用程序。
+
+* Workflow Dispatch 和 Workflow Dispatch Latest 有什么区别？
+  - 最新版本 - Workflow Dispatch：补丁最新版本，并作为工作流工件上传。
+  - 自定义版本 - Workflow Dispatch：允许您选择一个兼容的版本（5.9.0 及以上）进行补丁，并作为工作流工件上传。
+
+> [!TIP]
+> 我们强烈推荐您使用 **最新版本 - Workflow Dispatch**，以补丁最新可用版本。
+> **自定义版本 - Workflow Dispatch** 同样支持从 5.9.0 及以上版本选择特定版本。
+
+---
+
+### 使用最新版本 - Workflow Dispatch 
+[![](https://github.com/sipsuru/fiddler-everywhere-patch-automated/actions/workflows/cp__latest_dispatch.yml/badge.svg)](https://github.com/sipsuru/fiddler-everywhere-patch-automated/actions/workflows/cp__latest_dispatch.yml)
+
   - Fork 此仓库。
-  - 进入 actions 页面，选择 `Latest Version - Workflow Dispatch` 工作流。
-  - 使用 `workflow dispatch` 触发。
-  - 触发成功后，下载名为 `Fiddler-Everywhere-VX.X.X-Patched` 的 artifact。
-  - 解压缩并运行它。
+  - 打开 Actions 标签页，选择 Latest Version - Workflow Dispatch 工作流。
+  - 使用 Workflow Dispatch 触发工作流。
+  - 触发成功后，下载名为 `Fiddler-Everywhere-VX.X.X-Patched` 的工件。
+  - 解压并运行。
 
-  * *操作步骤如下：*
+  * *以下是操作示例...*
 
     https://github.com/user-attachments/assets/437c3448-1ea2-4c99-9123-e56b1665a37b
 
-### 使用 `Custom Version - Workflow Dispatch`
-
-> [!IMPORTANT]
-> 在 2024 年 9 月 24 日星期二 21:25 之前，如果触发 `Custom Version - Workflow Dispatch`，5.17.0+ 版本会因为环境错误无法修补。此问题现已修复！
+### 使用自定义版本 - Workflow Dispatch 
+[![](https://github.com/sipsuru/fiddler-everywhere-patch-automated/actions/workflows/cp_dispatch.yml/badge.svg)](https://github.com/sipsuru/fiddler-everywhere-patch-automated/actions/workflows/cp_dispatch.yml)
 
   - Fork 此仓库。
-  - 进入 actions 页面，选择 `Custom Version - Workflow Dispatch` 工作流。
-  - 使用 `workflow dispatch` 触发，输入您想修补的版本。
-  - 触发成功后，下载名为 `Fiddler-Everywhere-VX.X.X-Patched` 的 artifact。
-  - 解压缩并运行它。
+  - 打开 Actions 标签页，选择 Custom Version - Workflow Dispatch 工作流。
+  - 提供您想要补丁的版本号并触发 Workflow Dispatch。
+  - 触发成功后，下载名为 `Fiddler-Everywhere-VX.X.X-Patched` 的工件。
+  - 解压并运行。
 
   > [!WARNING]
-  > 请注意，当前仅支持 5.9.0 及以上版本（5.9.0+）。
+  > 请注意，只有版本 5.9.0 及以上版本（5.9.0+）受支持。
+  
+  > 可在此处找到版本列表 - [版本历史](https://www.telerik.com/support/whats-new/fiddler-everywhere/release-history)
 
-  > 您可以在此找到发行历史记录 - [Release History](https://www.telerik.com/support/whats-new/fiddler-everywhere/release-history)
-
-  * *操作步骤如下：*
+  * *以下是操作示例...*
 
     https://github.com/user-attachments/assets/1e9fa214-b9c9-469c-83f0-e5ae4527d2f7
 
-### 使用 `Continuous Patch`
-> [!CAUTION]
-> 我们强烈建议您不要使用此版本。它仍然存在许多安全漏洞。
+---
 
-  - Fork 此仓库。
-  - 使用 Continuous Patch 需要设置一个名为 `LATEST_PATCHED_VERSION` 的 `Repository Variable`，您应填写当前在 [Release History](https://www.telerik.com/support/whats-new/fiddler-everywhere/release-history) 中最新的版本号，但不带 'V'，例如：`5.17.0`。
-  - Continuous Patch 会修补 `LATEST_PATCHED_VERSION` 之后发布的新版本。***目前您需要在修补新版本后手动更新此仓库变量，否则它每天都会重复修补同一版本！***
-  - 该工作流每天 UTC 00:00 触发，如果发现新版本，artifact 会被上传。
-    > 注意：目前此操作不会将修补后的应用程序作为 release 上传。因此，您需要手动检查是否有新版本已修补，并查看已运行操作的 artifact 部分。
-  - 如果 Telerik 上传了新版本，并且已通过连续触发修补，下载名为 `Fiddler-Everywhere-VX.X.X-Patched` 的 artifact。
-  - 解压缩并运行它。
+### 定时同步 Fork 与上游仓库
+FE Patch 1.0.8 增加了定时（默认每 6 小时）同步 Fork 与上游仓库的功能。
+  > [!NOTE]
+  > 感谢：[lobe-chat](https://github.com/lobehub/lobe-chat) & [ous50](https://github.com/ous50)
 
-  > [!WARNING]
-  > 我们强烈建议您禁用此工作流修补，因为它会消耗 GitHub Action 运行器的许多资源，且您可能不会喜欢频繁的工作流运行。
+  > [!IMPORTANT]
+  > - 要启用此上游同步操作，您需要启用 [Upstream Sync](.github/workflows/cp_pull_upstream.yml) GitHub Action。
+  > - 如果同步失败，此操作会在您的 Fork 中创建一个 Issue。因此，您需要在仓库设置中启用 Issue 功能（设置 --> 常规 --> 功能：Issue）。
+  > - 了解更多关于此操作的信息：[lobe-chat 同步功能 Wiki - 英文](https://github.com/lobehub/lobe-chat/wiki/Upstream-Sync) & [lobe-chat 同步功能 Wiki - 中文](https://github.com/lobehub/lobe-chat/wiki/Upstream-Sync.zh-CN)
+
+  > [!TIP]
+  > - 您可以通过编辑 [cp_pull_upstream.yml](.github/workflows/cp_pull_upstream.yml) 中的 `cron: '0 */6 * * *'` 更改同步计划。
+  > - 了解更多关于 GitHub Actions 的调度计划，请访问 [GitHub 文档 - 调度操作](https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#schedule)
+
+  > [!CAUTION]
+  > - 如果您使用其他方法（例如 GitHub App）同步 Fork 与上游仓库（如：[Pull by Wei](https://github.com/wei/pull)），应禁用上游同步操作（操作路径：Actions --> Upstream Sync --> 右上角菜单 [...] --> 禁用工作流）。
+  > - 了解更多关于禁用工作流的信息，请访问 [GitHub 文档 - 禁用和启用工作流](https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-workflow-runs/disabling-and-enabling-a-workflow)
+
+---
 
 > [!NOTE]
-> 对于通用 `Linux` 和 `MacOS` 的说明，请参见 [源仓库](https://github.com/msojocs/fiddler-everywhere-enhance)。
+> 对于通用 Linux 和 MacOS 的操作说明，请使用 [源仓库](https://github.com/msojocs/fiddler-everywhere-enhance)
 
 > [!CAUTION]
-> 请不要将此补丁用于非法目的。如果可以的话，希望您支持官方产品：[请支持](https://www.telerik.com/purchase/fiddler)。
+> 请不要将此补丁用于非法目的。如果可以，请支持官方：[支持官方](https://www.telerik.com/purchase/fiddler)
